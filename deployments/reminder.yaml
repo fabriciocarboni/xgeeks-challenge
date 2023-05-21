@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: reminder
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: reminder
+  template:
+    metadata:
+      labels:
+        app: reminder
+    spec:
+      containers:
+      - name: reminder
+        image: kilabs/cloud-engineer-challenge-calculator:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3007
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: reminder
+spec:
+  selector:
+    app: reminder
+  ports:
+  - port: 80
+    targetPort: 3007
+  
