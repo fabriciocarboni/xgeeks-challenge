@@ -1,0 +1,1 @@
+kubectl apply $(ls *.yaml | awk ' { print " -f " $1 } ')
