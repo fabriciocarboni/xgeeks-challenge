@@ -81,7 +81,7 @@ function isValidExpression(expression) {
 async function solveUnaryExpression(serviceName, expression, options) {
   const value = await solveExpression(expression.value, options);
 
-  const response = await apiCall(
+  const response = await (
     serviceName,
     { type: serviceName, value },
     options

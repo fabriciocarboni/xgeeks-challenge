@@ -4,32 +4,32 @@
  */
 
 
-# resource "aws_eip" "nat" {
-#   vpc = true
+resource "aws_eip" "nat" {
+  vpc = true
 
-#   tags = {
-#     Name = "nat"
-#   }
-# }
+  tags = {
+    Name = "nat"
+  }
+}
 
-# resource "aws_nat_gateway" "nat-gw-a" {
-#   allocation_id = aws_eip.nat.id
-#   subnet_id     = aws_subnet.public-a.id
+resource "aws_nat_gateway" "nat-gw-a" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public-a.id
 
-#   tags = {
-#     Name = "nat-a"
-#   }
+  tags = {
+    Name = "nat-a"
+  }
 
-#   depends_on = [aws_internet_gateway.igw]
-# }
+  depends_on = [aws_internet_gateway.igw]
+}
 
-# resource "aws_nat_gateway" "nat-gw-b" {
-#   allocation_id = aws_eip.nat.id
-#   subnet_id     = aws_subnet.public-b.id
+resource "aws_nat_gateway" "nat-gw-b" {
+  allocation_id = aws_eip.nat.id
+  subnet_id     = aws_subnet.public-b.id
 
-#   tags = {
-#     Name = "nat-b"
-#   }
+  tags = {
+    Name = "nat-b"
+  }
 
-#   depends_on = [aws_internet_gateway.igw]
-# }
+  depends_on = [aws_internet_gateway.igw]
+}
