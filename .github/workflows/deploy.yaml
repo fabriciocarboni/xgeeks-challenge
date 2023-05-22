@@ -113,3 +113,30 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG services/$ECR_REPOSITORY
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+      # - configurar service account com permissao de deploy
+      # - encodar ~/.kube/config pra base64
+      # - jogar como secret no github
+      # - desencodar em tempo de execucao (decode e jogar pra arquivo)
+      # - export KUBECONFIG no arquivo criado
+
+    - name: Install and configure kubectl
+        run: |
+        VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt)
+        curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
+            --progress-bar \
+            --location \
+            --remote-name
+        chmod +x kubectl
+        sudo mv kubectl /usr/local/bin/
+        echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
+    
+# - name: Deploy
+#     env:
+#     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+#     run: |
+#     export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
+#     export IMAGE_TAG=${{ env.SHORT_SHA }}
+#     export KUBECONFIG=kubeconfig.yaml
+#     envsubst < k8s/kustomization.tmpl.yaml > k8s/kustomization.yaml
+#     kubectl kustomize k8s | kubectl apply -f -
