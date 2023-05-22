@@ -3,7 +3,7 @@ name: Build & Deploy image to ECR
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches: [ master ]
 
 jobs:
   build:
@@ -34,6 +34,6 @@ jobs:
         ECR_REPOSITORY: calculator
         IMAGE_TAG: latest
       run: |
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG services/calculator
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
