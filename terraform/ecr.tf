@@ -5,15 +5,13 @@
 
  
 resource "aws_ecr_repository" "ecr_repo" {
-  name                 = "calculator"
+
+  for_each = toset(var.ecr_repos)
+ 
+  name                 = each.key
   image_tag_mutability = "MUTABLE"
 
   image_scanning_configuration {
     scan_on_push = false
-  }
-}
-
-output "REPOSITORY_URL" {
-  description = "The URL of the repository."
-  value       = aws_ecr_repository.ecr_repo.repository_url
+  }    
 }
