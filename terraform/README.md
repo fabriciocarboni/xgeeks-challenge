@@ -20,6 +20,8 @@ export AWS_ACCESS_KEY_ID=""
 export AWS_SECRET_ACCESS_KEY=""
 export AWS_DEFAULT_REGION=us-east-1
 ```
+Create in the github repository the AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY in order to the github actions be able to push the app image to ECR. Settings -> Secrets and Variables -> Actions -> New Repository Secret.
+
 Deploy
 ```
 cd terraform
