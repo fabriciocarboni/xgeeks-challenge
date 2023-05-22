@@ -1,4 +1,4 @@
-name: Build & Deploy image to ECR
+name: Build & Deploy images to ECR
 
 on:
   workflow_dispatch:
@@ -80,6 +80,17 @@ jobs:
         docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG services/$ECR_REPOSITORY
         docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
         echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+
+    - name: REMINDER - Build, tag, and push image to Amazon ECR
+      id: build-image-reminder
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: reminder
+        IMAGE_TAG: latest
+      run: |
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG services/$ECR_REPOSITORY
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"        
 
     - name: BASE - Build, tag, and push image to Amazon ECR
       id: build-image-base
