@@ -118,6 +118,7 @@ jobs:
       uses: tale/kubectl-action@v1
       with:
         base64-kube-config: ${{ secrets.KUBECONFIG }}
+      run: echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
     
     # - name: Install and configure kubectl
     #   run: |
