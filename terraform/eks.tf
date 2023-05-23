@@ -37,8 +37,8 @@ resource "aws_eks_cluster" "xgeeks" {
 
   vpc_config {
     subnet_ids = [
-      aws_subnet.private-a.id,
-      aws_subnet.private-b.id,
+      # aws_subnet.private-a.id,
+      # aws_subnet.private-b.id,
       aws_subnet.public-a.id,
       aws_subnet.public-b.id
     ]
@@ -87,9 +87,14 @@ resource "aws_eks_node_group" "private-nodes" {
   node_group_name = "private-nodes"
   node_role_arn   = aws_iam_role.nodes.arn
 
-  subnet_ids = [
-    aws_subnet.private-a.id,
-    aws_subnet.private-b.id
+  # subnet_ids = [
+  #   aws_subnet.private-a.id,
+  #   aws_subnet.private-b.id
+  # ]
+
+    subnet_ids = [
+    aws_subnet.public-a.id,
+    aws_subnet.public-b.id
   ]
 
   capacity_type  = "ON_DEMAND"
@@ -97,7 +102,7 @@ resource "aws_eks_node_group" "private-nodes" {
 
   scaling_config {
     desired_size = 1
-    max_size     = 5
+    max_size     = 2
     min_size     = 0
   }
 

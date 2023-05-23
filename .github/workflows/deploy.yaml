@@ -118,33 +118,14 @@ jobs:
       uses: tale/kubectl-action@v1
       with:
         base64-kube-config: ${{ secrets.KUBECONFIG }}
-    - name: Get kubeconfig secret
-      run: echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
-
     
-    # - name: Install and configure kubectl
-    #   run: |
-    #     VERSION=$(curl --silent https://storage.googleapis.com/kubernetes-release/release/stable.txt) \
-    #     curl https://storage.googleapis.com/kubernetes-release/release/$VERSION/bin/linux/amd64/kubectl \
-    #       --progress-bar \
-    #       --location \
-    #       --remote-name \
-    #     chmod +x kubectl \
-    #     sudo mv kubectl /usr/local/bin/ \
-    #     echo ${{ secrets.KUBECONFIG }} | base64 --decode > kubeconfig.yaml
-    
-# - name: Deploy
-#     env:
-#     ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-#     run: |
-#     export ECR_REPOSITORY=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}
-#     export IMAGE_TAG=${{ env.SHORT_SHA }}
-#     export KUBECONFIG=kubeconfig.yaml
-#     envsubst < k8s/kustomization.tmpl.yaml > k8s/kustomization.yaml
-#     kubectl kustomize k8s | kubectl apply -f -
-
-# - configurar service account com permissao de deploy
-# - encodar ~/.kube/config pra base64
-# - jogar como secret no github
-# - desencodar em tempo de execucao (decode e jogar pra arquivo)
-# - export KUBECONFIG no arquivo criado
+    - name: Deploy
+      run: |
+        kubectl apply -f deployments/addition.yaml
+        kubectl apply -f deployments/multiplication.yaml
+        kubectl apply -f deployments/subtraction.yaml
+        kubectl apply -f deployments/division.yaml
+        kubectl apply -f deployments/remainder.yaml
+        kubectl apply -f deployments/calculator.yaml
+        kubectl apply -f deployments/base.yaml
+        kubectl apply -f deployments/client.yaml

@@ -14,7 +14,7 @@ variable "ecr_repos" {
                   "division", 
                   "multiplication", 
                   "division", 
-                  "reminder", 
+                  "remainder", 
                   "subtraction", 
                   "client",
                   "base"

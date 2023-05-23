@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: subtraction
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: subtraction
+  template:
+    metadata:
+      labels:
+        app: subtraction
+    spec:
+      containers:
+      - name: subtraction
+        image: kilabs/cloud-engineer-challenge-calculator:latest
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 3008
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: subtraction
+spec:
+  selector:
+    app: subtraction
+  ports:
+  - port: 80
+    targetPort: 3008
+  
